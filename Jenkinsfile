@@ -24,14 +24,6 @@ pipeline {
                 sh "docker run --rm manifest-holder"
             }
         }
-        stage ('release') {
-            environment {
-                CREDS = credentials('aws_danya')
-            }
-            steps {
-                sh "whoami"
-                sh "docker login -u ${CREDS_USR} -p ${CREDS_PSW}"
-            }
-        }
+
     }
 } 
