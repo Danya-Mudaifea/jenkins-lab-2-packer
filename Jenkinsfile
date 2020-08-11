@@ -1,10 +1,8 @@
 pipeline {
-  agent {
-    docker {
-      image "bryandollery/terraform-packer-aws-alpine"
-      args "-u root --entrypoint=''"
+ agent { docker { image 'alpine:3.7' } } 
+    options {
+        skipStagesAfterUnstable()
     }
-  }
   environment {
     CREDS = credentials('aws-creds')
     AWS_ACCESS_KEY_ID = "$CREDS_USR"
