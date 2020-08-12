@@ -1,5 +1,10 @@
 all: stop start exec
 
+init:
+	export PROJECT_NAME="web-server"
+	echo "$$OWNER must be set"
+	echo "$$PROJECT_NAME must be set"
+
 start:
 	docker run -it -d \
 		--env TF_NAMESPACE=$$TF_NAMESPACE \
@@ -7,9 +12,9 @@ start:
 		--env AWS_ACCESS_KEY_ID="$$(sed -n 2p creds/credentials | sed 's/.*=//')" \
 		--env AWS_SECRET_ACCESS_KEY="$$(sed -n 3p creds/credentials | sed 's/.*=//')" \
 		--env OWNER=$$OWNER \
+		--env PROJECT_NAME=$$PROJECT_NAME \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v $$PWD:/$$(basename $$PWD) \
-		-v k3s_packer:/token \
 		-w /$$(basename $$PWD) \
 		--name $$(basename $$PWD) \
 		--hostname $$(basename $$PWD) \
